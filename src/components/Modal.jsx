@@ -12,7 +12,7 @@ import "../../src/chat.css";
 export const Modal = ({ chatId, isOpen, onClose, data, role }) => {
     const defaultAvatar = avatar;
     const [messages, setMessages] = useState([]);
-    const scrollRef = useRef(null); // Reference for automatic scroll
+    const scrollRef = useRef(null);
 
     useEffect(() => {
         if (!chatId || !isOpen) return;
@@ -60,7 +60,7 @@ export const Modal = ({ chatId, isOpen, onClose, data, role }) => {
                         exit={{ opacity: 0, scale: 0.8 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 w-full max-w-3xl h-[80vh] flex flex-col">
+                        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden">
                             {/* Header */}
                             <div className="flex justify-between items-center mb-4">
                                 <div className="flex items-center">
@@ -84,6 +84,18 @@ export const Modal = ({ chatId, isOpen, onClose, data, role }) => {
 
                             <div className="msgs overflow-y-auto flex-grow scrollbar-hide">
                                 {/* Disclaimer with Badge */}
+                                <div className="mb-4 mt-2 flex justify-center items-center">
+                                    <Badge color="info" className="text-center font-xs">
+                                        <strong>{role === 'Student' ? 'Disclaimer' : 'Notice'}</strong>
+                                        <p>
+                                            {role === 'Student'
+                                                ? "Please be aware that this chat is for educational purposes only. Any topics discussed outside of this context are not permitted."
+                                                : "You have started a chat with a student. Please keep the conversation professional and relevant to the course."
+                                            }
+                                        </p>
+                                    </Badge>
+                                </div>
+
                                 {role === 'Student' ? (
                                     <div className="mb-4 mt-2 flex justify-center items-center"> {/* Center the content */}
                                         <Badge color="info" className="text-center font-xs"> {/* Center the text */}
@@ -117,9 +129,9 @@ export const Modal = ({ chatId, isOpen, onClose, data, role }) => {
                                         />
                                     </div>
                                 ))}
-                                <div ref={scrollRef} /> {/* This div acts as the scroll target */}
+                                <div ref={scrollRef} /> {/* Scroll target */}
                             </div>
-                            
+
                             {/* SendMessage component fixed to the bottom */}
                             <SendMessage chatId={chatId} scrollRef={scrollRef} />
                         </div>
